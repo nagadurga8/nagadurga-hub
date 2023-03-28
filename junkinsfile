@@ -3,9 +3,11 @@ pipeline{
     tools {maven "maven"}
      environment {
       RELEASE_REPO = 'petclinic'
-      NEXUS_IP = '54.172.183.221'
+      NEXUS_IP = '54.204.55.217'
       NEXUS_PORT ='8081'
       NEUXS_LOGIN ='neuxs'
+      DOCKERHUB_CREDENTIALS = credentials('docker-token')
+      REGISTRY = 'petclinic'
      }
     stages {
         stage('clone git') {
@@ -19,15 +21,15 @@ pipeline{
                   
               }
           }
-         // stage('sonarqube') {
-         //   steps {
-         //     withSonarQubeEnv('sonarqube') {
-         //    sh 'mvn clean verify sonar:sonar \
-         //       -Dsonar.projectKey=petclinic \
-         //       -Dsonar.login=sqp_9e200dbe6b081c0995427414f0fac96bd132017e'
-         //     }
-         //   }
-         // }
+          stage('sonarqube') {
+            steps {
+              withSonarQubeEnv('sonarqube') {
+             sh 'mvn clean verify sonar:sonar \
+                -Dsonar.projectKey=petclinic \
+                -Dsonar.login=sqp_9e200dbe6b081c0995427414f0fac96bd132017e'
+              }
+            }
+          }
           stage('upload jar to nexus'){
             steps{
               nexusArtifactUploader(
@@ -44,7 +46,22 @@ pipeline{
                   file: 'target/spring-petclinic-3.0.0-SNAPSHOT.jar',
                   type: 'jar']
                ]
-              )
+                )
+            }
+          }
+          stage('Build docker image'){
+            steps{
+              script{
+                dockerImage = docker.build REGISTRY
+              }
+            }
+          }
+          stage('Docker Push'){
+            steps{
+              script{
+                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 552882621694.dkr.ecr.us-east-1.amazonaws.com'
+                sh 'docker push 552882621694.dkr.ecr.us-east-1.amazonaws.com/petclinic:latest' 
+              }
             }
           }
             
