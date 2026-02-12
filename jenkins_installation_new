@@ -1,5 +1,9 @@
+sudo gpg --no-default-keyring --keyring /etc/apt/trusted.gpg \
+  --export 7198F4B714ABFC68 | sudo gpg --dearmor -o /usr/share/keyrings/jenkins.gpg
+
+
 sudo rm -f /etc/apt/sources.list.d/jenkins.list
-  157  echo "deb https://pkg.jenkins.io/debian-stable binary/"   | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
-  158  sudo apt update
-  159  sudo apt install jenkins -y
-  160  sudo systemctl enable jenkins
+echo "deb https://pkg.jenkins.io/debian-stable binary/"   | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt update
+sudo apt install jenkins -y
+sudo systemctl enable jenkins
