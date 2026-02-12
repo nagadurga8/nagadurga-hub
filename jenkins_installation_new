@@ -1,0 +1,5 @@
+sudo rm -f /etc/apt/sources.list.d/jenkins.list
+  157  echo "deb https://pkg.jenkins.io/debian-stable binary/"   | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+  158  sudo apt update
+  159  sudo apt install jenkins -y
+  160  sudo systemctl enable jenkins
