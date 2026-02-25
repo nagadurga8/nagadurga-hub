@@ -34,7 +34,7 @@ pipeline{
                 nexusArtifactUploader(
                     nexusVersion : 'Nexus3',
                     protocol : 'http',
-                    nexusUrl :"${NEXUS_IP}":"${NEXUS_PORT}",
+                    nexusUrl :"${NEXUS_IP}:${NEXUS_PORT}",
                     groupId : 'org.springframework.samples',
                     environment : "${evn.BUILD_ID}- ${evn.BUILD_TIMESTAMP}",
                     repository : "${RELEASE_REPO}",
