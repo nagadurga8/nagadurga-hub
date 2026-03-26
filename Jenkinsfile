@@ -1,6 +1,8 @@
 pipeline{
     agent any
-    tools {maven "maven"}
+    tools {
+        maven "maven"
+    }
      environment {
         RELEASE_REPO = 'petclinic'
         NEXUS_IP ='54.204.55.217'
