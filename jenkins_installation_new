@@ -7,3 +7,14 @@ echo "deb https://pkg.jenkins.io/debian-stable binary/"   | sudo tee /etc/apt/so
 sudo apt update
 sudo apt install jenkins -y
 sudo systemctl enable jenkins
+
+latest instalation
+   40  sudo apt update
+   41  sudo apt install openjdk-17-jdk -y
+   42  wget https://pkg.jenkins.io/debian-stable/binary/jenkins_2.440.1_all.deb
+   43  sudo dpkg -i jenkins_2.440.1_all.deb
+   44  sudo apt -f install -y
+   45  sudo systemctl daemon-reexec
+   46  sudo systemctl enable jenkins
+   47  sudo systemctl start jenkins
+   48  sudo systemctl status jenkins
